@@ -220,17 +220,21 @@ class myHashMap<K,V> {
      */
 
     public V remove(K key) {
+        int index = getBucketIndex(key);
+        HashNode<K, V> cur = bucket.get(index);
+        HashNode<K, V> prev = null;
+        while (cur != null) {
+            if (cur.key.equals(key) && prev == null) {
+                bucket.set(index, null);
+                return cur.value;
+            } else if (cur.key.equals(key)) {
+                prev.next = prev.next.next;
+                return cur.value;
+            }
 
-        /*
-         * ADD YOUR CODE HERE
-         *
-         * Review the code in the whole object to understand teh data structures layout.
-         * Additionally, review the method put() for inserting a new Key / Value pair into
-         * the HashMap. This method will do the opposite by removing an element. Do see
-         * the return value discussion in this method's prologue to make sure the correct
-         * return value is returned the invoking function based on the remove outcome.
-         */
-
+            prev = cur;
+            cur = cur.next;
+        }
         return null;
     }
 
@@ -406,7 +410,17 @@ class myHashMap<K,V> {
          * replace (see method's prologue above).
          */
 
-        return val;
+        int index = getBucketIndex(key);
+        HashNode<K, V> cur = bucket.get(index);
+        while (cur != null) {
+            if (cur.key.equals(key)) {
+                V oldVal = cur.value;
+                cur.value = val;
+                return oldVal;
+            }
+            cur = cur.next;
+        }
+        return null;
     }
 
     
@@ -433,7 +447,15 @@ class myHashMap<K,V> {
          * This method should apply the precondition (aka, the Key already exists with the
          * value 'oldval', and is so, it SHOULD call replace(K, V) for code reuse.
          */
-
+        int index = getBucketIndex(key);
+        HashNode<K, V> cur = bucket.get(index);
+        while (cur != null) {
+            if (cur.key.equals(key) && cur.value.equals(oldVal)) {
+                replace(key, newVal);
+                return true;
+            }
+            cur = cur.next;
+        }
         return false;
     }
 

@@ -1,5 +1,5 @@
 /*
- * *** YOUR NAME GOES HERE / YOUR SECTION NUMBER ***
+ * *** Evan Polk ***
  *
  * This HashingProblems object contains three methods / problems that you must
  * complete utilize the HashMap object within the Java's Collection Framework Library.
@@ -14,6 +14,7 @@ import java.util.HashMap;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 class HashingProblems {
 
@@ -41,8 +42,17 @@ class HashingProblems {
          * returning 0.0/0.0 IS correct (which would return a non-number).
          */
 
-         return 0.0 / 0.0;
-  }
+        double denominator = 0.0;
+        double numerator = 0.0;
+        for (int num : array) {
+            if (map.containsKey(num)) {
+                double value = map.getOrDefault(num, 0);
+                numerator += value;
+                denominator += 1;
+            }
+        }
+        return numerator / denominator;
+    }
 
 
     /*
@@ -51,20 +61,21 @@ class HashingProblems {
      * This method accepts a HashMap object, and returns an ArrayList object with the
      * values of the corresponding keys that are odd.
      */
+    public ArrayList<String> odd(HashMap<Integer, String> map) {
+        ArrayList<String> result = new ArrayList<>();
+        /*
+        * ADD YOUR CODE HERE
+        *
+        * Hint: Consider iterating over the HashMap using the keySet method.
+        */
 
-  public ArrayList<String> odd(HashMap<Integer, String> map) {
-    
-      ArrayList<String> result = new ArrayList<>();
-
-      /*
-       * ADD YOUR CODE HERE
-       *
-       * Hint: Consider iterating over the HashMap using the keySet method.
-       */
-
-
-      return result;
-  }
+        for (int key : map.keySet()) {
+            if (key % 2 == 1) {
+                result.add(map.get(key));
+            }
+        }
+        return result;
+    }
 
 
   /*
@@ -105,12 +116,17 @@ class HashingProblems {
    */
 
   public int twoSums(int[] numbers, int k) {
+      Set<Integer> prev = new HashSet<>();
+      int res = 0;
 
-      /*
-       * ADD YOUR CODE HERE
-       */
+      for (int i = 0; i < numbers.length; i++) {
+          if (prev.contains(numbers[i])) {
+              res += 1;
+          }
+          prev.add(numbers[i] + k);
+      }
 
-      return -1;
+      return res;
   }
 
 } /* end class HashingProblems */
